@@ -68,6 +68,30 @@ fun Editor.wrapStringPut(
     return putString(key, value ?: "")
 }
 
+fun SharedPreferences.double(
+    key: String? = null,
+    defValue: Double = 0.0
+): ReadWriteProperty<Any, Double> {
+    return delegate(key, defValue, SharedPreferences::getDouble, Editor::putDouble)
+}
+
+fun SharedPreferences.getDouble(
+    key: String,
+    def: Double
+): Double {
+    if (!contains(key)) {
+        return def
+    }
+    return Double.fromBits(getLong(key, 0))
+}
+
+fun Editor.putDouble(
+    key: String,
+    value: Double
+): Editor {
+    return putLong(key, value.toRawBits())
+}
+
 fun SharedPreferences.clear() {
     edit().clear().apply()
 }
