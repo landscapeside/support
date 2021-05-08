@@ -44,6 +44,38 @@ fun String.loadImage(
   }
 }
 
+fun String.loadImage(
+    context: Context,
+    imgView: ImageView,
+    width:Int,
+    height:Int,
+    @DrawableRes errImg: Int = -1,
+    @DrawableRes emptyImg: Int = -1
+) {
+    if (this.isEmpty()) {
+        if (emptyImg != -1) {
+            Glide.with(context)
+                .load(emptyImg)
+                .into(imgView)
+        }
+        return
+    }
+    val glideLoader = Glide.with(context)
+        .load(this)
+        .override(width, height)
+        .dontAnimate()
+        .dontTransform()
+        .skipMemoryCache(false)
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
+    if (errImg != -1) {
+        glideLoader.error(errImg)
+            .placeholder(errImg)
+            .into(imgView)
+    } else {
+        glideLoader.into(imgView)
+    }
+}
+
 fun Bitmap.loadImage(
   context: Context,
   imgView: ImageView,
