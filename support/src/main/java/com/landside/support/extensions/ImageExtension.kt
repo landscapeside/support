@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat.JPEG
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import com.landside.support.compat.DirectoryProvider
 import com.landside.support.helper.SysInfo
 import java.io.File
@@ -73,4 +74,30 @@ fun Bitmap.toCropScaledBitmap(
   } catch (e: Exception) {
   }
   return resultBitmap
+}
+
+fun Bitmap.toScaled(ratio: Float):Bitmap{
+  val matrix = Matrix()
+  matrix.preScale(ratio, ratio)
+  val newBM = Bitmap.createBitmap(this, 0, 0, width, height, matrix, false)
+  if (newBM == this) {
+    return newBM
+  }
+  recycle()
+  return newBM
+}
+
+fun Bitmap.toScaled(
+  newWidth: Int = -1,
+  newHeight: Int = -1
+):Bitmap{
+  val scaleWidth = if (newWidth == -1) 1.0f else newWidth.toFloat() / width
+  val scaleHeight = if (newHeight == -1) 1.0f else newHeight.toFloat() / height
+  val matrix = Matrix()
+  matrix.postScale(scaleWidth, scaleHeight) // 使用后乘
+  val newBM = Bitmap.createBitmap(this, 0, 0, width, height, matrix, false)
+  if (!isRecycled) {
+    recycle()
+  }
+  return newBM
 }

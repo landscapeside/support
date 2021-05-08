@@ -5,6 +5,9 @@ import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.CycleInterpolator
+import android.view.animation.TranslateAnimation
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.EditText
@@ -164,3 +167,31 @@ fun View.setMarginInRelative(
   params.bottomMargin = bottom ?: params.bottomMargin
   this.layoutParams = params
 }
+
+fun View.shake(forever:Boolean = false) {
+  val translateAnimation: Animation = TranslateAnimation(0f, 5f, 0f, 0f)
+  translateAnimation.interpolator = CycleInterpolator(5f)
+  translateAnimation.duration = 1000
+  if (forever) {
+    translateAnimation.repeatMode = Animation.RESTART
+    translateAnimation.repeatCount = -1
+  }
+  clearAnimation()
+  translateAnimation.setAnimationListener(object : Animation.AnimationListener {
+    override fun onAnimationRepeat(p0: Animation?) {
+
+    }
+
+    override fun onAnimationEnd(p0: Animation?) {
+
+    }
+
+    override fun onAnimationStart(p0: Animation?) {
+
+    }
+
+  })
+  animation = translateAnimation
+
+}
+
