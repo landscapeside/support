@@ -1,5 +1,7 @@
 package com.landside.support.extensions
 
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
@@ -192,6 +194,12 @@ fun View.shake(forever:Boolean = false) {
 
   })
   animation = translateAnimation
+}
 
+fun dialog(context: Context,initializer:AlertDialog.Builder.()->Unit){
+  val builder = AlertDialog.Builder(context).apply {
+    initializer()
+  }
+  builder.show()
 }
 
