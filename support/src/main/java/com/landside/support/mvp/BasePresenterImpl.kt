@@ -1,7 +1,12 @@
 package com.landside.support.mvp
 
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.landside.shadowstate.ShadowState
+import com.landside.support.helper.GlobalErrHandler
+import com.landside.support.subcribers.CoroutineObserver
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 open class BasePresenterImpl<V : BaseView> : RequestProvider(), BasePresenter<V> {
 
@@ -16,5 +21,22 @@ open class BasePresenterImpl<V : BaseView> : RequestProvider(), BasePresenter<V>
 
   override fun detachView() {
     mView = null
+  }
+
+  fun launch(block: CoroutineObserver.()->Unit) {
+    (mView as? LifecycleOwner)?.let {
+      it.lifecycleScope.launch {
+        CoroutineObserver().apply {
+          try {
+            block()
+          } catch (e: Exception) {
+            GlobalErrHandler.handle(e)
+            errInvoker(e)
+          }finally {
+            doneInvoker()
+          }
+        }
+      }
+    }
   }
 }

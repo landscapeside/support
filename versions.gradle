@@ -40,6 +40,7 @@ ext {
     viewpager2 = "androidx.viewpager2:viewpager2:1.0.0-alpha01"
     coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"
     coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3"
+    lifecycleKtx = "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
 
     liveData = [group: 'androidx.lifecycle', name: 'lifecycle-livedata', version: '2.0.0']
     liveDataRx = [group: 'androidx.lifecycle', name: 'lifecycle-reactivestreams', version: '2.0.0']
