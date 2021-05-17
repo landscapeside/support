@@ -42,4 +42,11 @@ dependencies {
   testImplementation 'junit:junit:4.+'
   androidTestImplementation 'androidx.test.ext:junit:1.1.2'
   androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+  implementation project(":support")
+
+  implementation rootProject.ext.autodispose
+  implementation rootProject.ext.autodispose_ktx
+  implementation rootProject.ext.autodispose_android_ktx
+  implementation rootProject.ext.autodispose_archs_ktx
 }
