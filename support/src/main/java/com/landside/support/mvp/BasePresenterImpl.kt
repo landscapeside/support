@@ -23,7 +23,7 @@ open class BasePresenterImpl<V : BaseView> : RequestProvider(), BasePresenter<V>
     mView = null
   }
 
-  fun launch(block: CoroutineObserver.()->Unit) {
+  fun launch(block: suspend CoroutineObserver.()->Unit) {
     (mView as? LifecycleOwner)?.let {
       it.lifecycleScope.launch {
         CoroutineObserver().apply {
