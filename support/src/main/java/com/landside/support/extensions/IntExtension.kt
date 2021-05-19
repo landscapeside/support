@@ -1,5 +1,7 @@
 package com.landside.support.extensions
 
+import java.lang.StringBuilder
+
 fun Int.limit(limit: Int = 999) = if (this > limit) {
   limit
 } else {
@@ -32,4 +34,16 @@ fun Int.roundBy(size: Int): Int {
     return (this / size + 1) * size
   }
   return (this / size + 2) * size
+}
+
+fun Int.triad(): String {
+  val origin = toString()
+  val result = StringBuilder()
+  (origin.indices).forEachIndexed { index, _ ->
+    result.append(origin[index])
+    if ((origin.length - index) % 3 == 1 && (origin.length - index) > 1) {
+      result.append(",")
+    }
+  }
+  return result.toString()
 }

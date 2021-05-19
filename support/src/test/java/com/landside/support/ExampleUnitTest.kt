@@ -1,5 +1,6 @@
 package com.landside.support
 
+import com.landside.support.extensions.triad
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -12,6 +13,7 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+//        assertEquals(4, 2 + 2)
+        assertEquals("1,000",1000.triad())
     }
 }
