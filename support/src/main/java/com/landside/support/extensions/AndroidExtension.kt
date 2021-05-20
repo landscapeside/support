@@ -20,6 +20,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.landside.support.views.DialogBuilder
 import com.landside.support.views.EditChangeWatcher
 
 fun EditText.isEmpty() = TextUtils.isEmpty(text.toString())
@@ -196,8 +197,8 @@ fun View.shake(forever:Boolean = false) {
   animation = translateAnimation
 }
 
-fun dialog(context: Context,initializer:AlertDialog.Builder.()->Unit){
-  val builder = AlertDialog.Builder(context).apply {
+fun dialog(context: Context,initializer:DialogBuilder.()->Unit){
+  val builder = DialogBuilder(context).apply {
     initializer()
   }
   builder.show()
