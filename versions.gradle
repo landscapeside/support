@@ -11,7 +11,7 @@ ext {
     compileSdkVersion = 29
     buildToolsVersion = "29.0.0"
     SupportVersion = "29.0.0"
-    minSdkVersion = 23
+    minSdkVersion = 21
     targetSdkVersion = 28
 
     androidXTest = 'androidx.test:core:1.0.0'
@@ -112,11 +112,11 @@ ext {
     rxWebSocket = 'com.dhh:websocket2:2.1.4'
     rxBus = 'com.hwangjr.rxbus:rxbus:2.0.1'
 
-    sliceRouter = "com.github.landscapeside.sliceRouter:slicerouter:0.0.17"
-    sliceRouterCompiler = 'com.github.landscapeside.sliceRouter:slicerouter-compiler:0.0.17'
+    sliceRouter = "com.github.landscapeside.sliceRouter:slicerouter:0.0.18"
+    sliceRouterCompiler = 'com.github.landscapeside.sliceRouter:slicerouter-compiler:0.0.18'
 
-    shadowState = 'com.github.landscapeside.ShadowState:shadowstate:1.0.1'
-    shadowStateCompiler = 'com.github.landscapeside.ShadowState:shadowstate-compiler:1.0.1'
+    shadowState = 'com.github.landscapeside.ShadowState:shadowstate:1.0.2'
+    shadowStateCompiler = 'com.github.landscapeside.ShadowState:shadowstate-compiler:1.0.2'
 
     rehost = 'com.github.landscapeside:rehost:0.0.7'
 
