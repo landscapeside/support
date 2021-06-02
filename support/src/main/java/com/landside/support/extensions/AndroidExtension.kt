@@ -57,6 +57,14 @@ fun Fragment.replaceFragment(@IdRes resId: Int, fragment: Fragment) {
   transaction.commit()
 }
 
+inline fun <reified T> FragmentActivity.findFragment():T?{
+  return supportFragmentManager.fragments.firstOrNull { it is T } as? T
+}
+
+inline fun <reified T> FragmentActivity.findFragments():List<T> {
+  return supportFragmentManager.fragments.filterIsInstance<T>()
+}
+
 fun CheckBox.safeSetChecked(
   listener: CompoundButton.OnCheckedChangeListener,
   executor: () -> Boolean
