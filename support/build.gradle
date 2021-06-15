@@ -78,4 +78,6 @@ dependencies {
 
     implementation( rootProject.ext.sliceRouter )
     kapt rootProject.ext.sliceRouterCompiler
+
+    implementation rootProject.ext.gson
 }
