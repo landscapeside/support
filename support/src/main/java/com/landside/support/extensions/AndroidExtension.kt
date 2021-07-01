@@ -1,6 +1,5 @@
 package com.landside.support.extensions
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
@@ -20,8 +19,11 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.landside.support.mvp.MVPBaseActivity
 import com.landside.support.views.DialogBuilder
 import com.landside.support.views.EditChangeWatcher
+import com.tbruyelle.rxpermissions2.RxPermissions
+import com.uber.autodispose.autoDisposable
 
 fun EditText.isEmpty() = TextUtils.isEmpty(text.toString())
 
@@ -29,39 +31,51 @@ inline fun EditText.ifEmpty(runner: () -> Unit) {
   if (isEmpty()) runner()
 }
 
-fun FragmentActivity.mountFragment(@IdRes resId: Int, fragment: Fragment) {
+fun FragmentActivity.mountFragment(
+  @IdRes resId: Int,
+  fragment: Fragment
+) {
   val fm = supportFragmentManager
   val transaction = fm.beginTransaction()
   transaction.add(resId, fragment)
   transaction.commit()
 }
 
-fun FragmentActivity.replaceFragment(@IdRes resId: Int, fragment: Fragment) {
+fun FragmentActivity.replaceFragment(
+  @IdRes resId: Int,
+  fragment: Fragment
+) {
   val fm = supportFragmentManager
   val transaction = fm.beginTransaction()
   transaction.replace(resId, fragment)
   transaction.commit()
 }
 
-fun Fragment.mountFragment(@IdRes resId: Int, fragment: Fragment) {
+fun Fragment.mountFragment(
+  @IdRes resId: Int,
+  fragment: Fragment
+) {
   val fm = childFragmentManager
   val transaction = fm.beginTransaction()
   transaction.add(resId, fragment)
   transaction.commit()
 }
 
-fun Fragment.replaceFragment(@IdRes resId: Int, fragment: Fragment) {
+fun Fragment.replaceFragment(
+  @IdRes resId: Int,
+  fragment: Fragment
+) {
   val fm = childFragmentManager
   val transaction = fm.beginTransaction()
   transaction.replace(resId, fragment)
   transaction.commit()
 }
 
-inline fun <reified T> FragmentActivity.findFragment():T?{
+inline fun <reified T> FragmentActivity.findFragment(): T? {
   return supportFragmentManager.fragments.firstOrNull { it is T } as? T
 }
 
-inline fun <reified T> FragmentActivity.findFragments():List<T> {
+inline fun <reified T> FragmentActivity.findFragments(): List<T> {
   return supportFragmentManager.fragments.filterIsInstance<T>()
 }
 
@@ -179,7 +193,7 @@ fun View.setMarginInRelative(
   this.layoutParams = params
 }
 
-fun View.shake(forever:Boolean = false) {
+fun View.shake(forever: Boolean = false) {
   val translateAnimation: Animation = TranslateAnimation(0f, 5f, 0f, 0f)
   translateAnimation.interpolator = CycleInterpolator(5f)
   translateAnimation.duration = 1000
@@ -205,10 +219,23 @@ fun View.shake(forever:Boolean = false) {
   animation = translateAnimation
 }
 
-fun dialog(context: Context,initializer:DialogBuilder.()->Unit){
+fun dialog(
+  context: Context,
+  initializer: DialogBuilder.() -> Unit
+) {
   val builder = DialogBuilder(context).apply {
     initializer()
   }
   builder.show()
+}
+
+fun MVPBaseActivity<*, *>.requestPermissions(
+  vararg permissions: String,
+  onResult: (Boolean) -> Unit
+) {
+  RxPermissions(this)
+      .request(*permissions)
+      .autoDisposable(autoDisposeProvider)
+      .subscribe { granted -> onResult(granted) }
 }
 
