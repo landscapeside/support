@@ -59,6 +59,7 @@ dependencies {
     kapt rootProject.ext.glideCompiler
     implementation rootProject.ext.rxJava
     implementation rootProject.ext.rxAndroid
+    implementation rootProject.ext.rxPermissions
 
     implementation rootProject.ext.autodispose
     implementation rootProject.ext.autodispose_ktx
