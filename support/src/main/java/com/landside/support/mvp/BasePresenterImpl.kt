@@ -5,7 +5,6 @@ import androidx.lifecycle.lifecycleScope
 import com.landside.shadowstate.ShadowState
 import com.landside.support.helper.GlobalErrHandler
 import com.landside.support.subcribers.CoroutineObserver
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 open class BasePresenterImpl<V : BaseView> : RequestProvider(), BasePresenter<V> {
@@ -30,8 +29,11 @@ open class BasePresenterImpl<V : BaseView> : RequestProvider(), BasePresenter<V>
           try {
             block()
           } catch (e: Exception) {
-            GlobalErrHandler.handle(e)
-            errInvoker(e)
+            try {
+              errInvoker(e)
+            } catch (gException: Exception) {
+              GlobalErrHandler.handle(e)
+            }
           }finally {
             doneInvoker()
           }
