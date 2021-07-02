@@ -2,6 +2,7 @@ package com.landside.support.extensions
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -12,6 +13,7 @@ import android.view.animation.TranslateAnimation
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -24,6 +26,7 @@ import com.landside.support.views.DialogBuilder
 import com.landside.support.views.EditChangeWatcher
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.uber.autodispose.autoDisposable
+import java.io.File
 
 fun EditText.isEmpty() = TextUtils.isEmpty(text.toString())
 
@@ -237,5 +240,69 @@ fun MVPBaseActivity<*, *>.requestPermissions(
       .request(*permissions)
       .autoDisposable(autoDisposeProvider)
       .subscribe { granted -> onResult(granted) }
+}
+
+fun ImageView.load(
+  url: String,
+  @DrawableRes errImg: Int = -1,
+  @DrawableRes emptyImg: Int = -1
+) {
+  url.loadImage(context, this, errImg, emptyImg)
+}
+
+fun ImageView.load(
+  url: String,
+  width: Int,
+  height: Int,
+  @DrawableRes errImg: Int = -1,
+  @DrawableRes emptyImg: Int = -1
+) {
+  url.loadImage(context, this, width, height, errImg, emptyImg)
+}
+
+fun ImageView.load(
+  bitmap: Bitmap,
+  @DrawableRes defaultImg: Int = -1
+) {
+  bitmap.loadImage(context, this, defaultImg)
+}
+
+fun ImageView.load(
+  file: File,
+  @DrawableRes defaultImg: Int = -1
+) {
+  file.loadImage(context, this, defaultImg)
+}
+
+fun ImageView.load(
+  @DrawableRes resId: Int
+) {
+  resId.loadImage(context, this)
+}
+
+fun ImageView.loadGif(
+  @DrawableRes resId: Int
+) {
+  resId.loadGif(context, this)
+}
+
+fun ImageView.loadRotated(
+  url: String
+) {
+  url.loadImageRotated(context, this)
+}
+
+fun ImageView.loadScale(
+  url: String,
+  @DrawableRes defaultImg: Int = -1
+) {
+  url.loadScaleImage(context, this, defaultImg)
+}
+
+fun ImageView.loadCenterCrop(
+  url: String,
+  @DrawableRes defaultImg: Int = -1
+) {
+  url.loadCenterCropImage(context, this, defaultImg)
 }
 
