@@ -45,35 +45,35 @@ fun String.loadImage(
 }
 
 fun String.loadImage(
-    context: Context,
-    imgView: ImageView,
-    width:Int,
-    height:Int,
-    @DrawableRes errImg: Int = -1,
-    @DrawableRes emptyImg: Int = -1
+  context: Context,
+  imgView: ImageView,
+  width: Int,
+  height: Int,
+  @DrawableRes errImg: Int = -1,
+  @DrawableRes emptyImg: Int = -1
 ) {
-    if (this.isEmpty()) {
-        if (emptyImg != -1) {
-            Glide.with(context)
-                .load(emptyImg)
-                .into(imgView)
-        }
-        return
+  if (this.isEmpty()) {
+    if (emptyImg != -1) {
+      Glide.with(context)
+          .load(emptyImg)
+          .into(imgView)
     }
-    val glideLoader = Glide.with(context)
-        .load(this)
-        .override(width, height)
-        .dontAnimate()
-        .dontTransform()
-        .skipMemoryCache(false)
-        .diskCacheStrategy(DiskCacheStrategy.ALL)
-    if (errImg != -1) {
-        glideLoader.error(errImg)
-            .placeholder(errImg)
-            .into(imgView)
-    } else {
-        glideLoader.into(imgView)
-    }
+    return
+  }
+  val glideLoader = Glide.with(context)
+      .load(this)
+      .override(width, height)
+      .dontAnimate()
+      .dontTransform()
+      .skipMemoryCache(false)
+      .diskCacheStrategy(DiskCacheStrategy.ALL)
+  if (errImg != -1) {
+    glideLoader.error(errImg)
+        .placeholder(errImg)
+        .into(imgView)
+  } else {
+    glideLoader.into(imgView)
+  }
 }
 
 fun Bitmap.loadImage(
@@ -93,19 +93,19 @@ fun Bitmap.loadImage(
 }
 
 fun File.loadImage(
-    context: Context,
-    imgView: ImageView,
-    @DrawableRes defaultImg: Int = -1
+  context: Context,
+  imgView: ImageView,
+  @DrawableRes defaultImg: Int = -1
 ) {
-    val glideLoader = Glide.with(context)
-        .load(this)
-    if (defaultImg != -1) {
-        glideLoader.error(defaultImg)
-            .placeholder(defaultImg)
-            .into(imgView)
-    } else {
-        glideLoader.into(imgView)
-    }
+  val glideLoader = Glide.with(context)
+      .load(this)
+  if (defaultImg != -1) {
+    glideLoader.error(defaultImg)
+        .placeholder(defaultImg)
+        .into(imgView)
+  } else {
+    glideLoader.into(imgView)
+  }
 }
 
 fun Int.loadImage(
@@ -122,14 +122,14 @@ fun Int.loadImage(
 fun Int.loadGif(
   context: Context,
   imgView: ImageView
-){
+) {
   val options = RequestOptions()
       .centerCrop()
       .priority(HIGH)
       .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
   Glide.with(context)
       .load(this)
-      .listener(object :RequestListener<Drawable>{
+      .listener(object : RequestListener<Drawable> {
         override fun onLoadFailed(
           e: GlideException?,
           model: Any?,
@@ -174,7 +174,7 @@ fun String.loadScaleImage(
   context: Context,
   imgView: ImageView,
   @DrawableRes defaultImg: Int = -1
-){
+) {
   val glideLoader = Glide.with(context)
       .asBitmap()
       .load(this)
@@ -191,11 +191,29 @@ fun String.loadCenterCropImage(
   context: Context,
   imgView: ImageView,
   @DrawableRes defaultImg: Int = -1
-){
+) {
   val glideLoader = Glide.with(context)
       .asBitmap()
       .load(this)
       .centerCrop()
+  if (defaultImg != -1) {
+    glideLoader.error(defaultImg)
+        .placeholder(defaultImg)
+        .into(imgView)
+  } else {
+    glideLoader.into(imgView)
+  }
+}
+
+fun String.loadCircle(
+  context: Context,
+  imgView: ImageView,
+  @DrawableRes defaultImg: Int = -1
+) {
+  val glideLoader = Glide.with(context)
+      .asBitmap()
+      .load(this)
+      .circleCrop()
   if (defaultImg != -1) {
     glideLoader.error(defaultImg)
         .placeholder(defaultImg)
