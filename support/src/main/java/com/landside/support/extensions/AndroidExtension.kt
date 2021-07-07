@@ -3,9 +3,11 @@ package com.landside.support.extensions
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.CycleInterpolator
@@ -13,8 +15,10 @@ import android.view.animation.TranslateAnimation
 import android.widget.*
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.landside.support.layoutcontainer.PopupLayoutContainer
 import com.landside.support.mvp.MVPBaseActivity
 import com.landside.support.views.DialogBuilder
 import com.landside.support.views.EditChangeWatcher
@@ -307,3 +311,16 @@ fun ImageView.loadCircle(
     url.loadCircle(context, this, defaultImg)
 }
 
+fun View.popAsDown(@LayoutRes layoutId:Int,block:PopupLayoutContainer.(PopupWindow)->Unit){
+    PopupWindow().apply {
+        width = RelativeLayout.LayoutParams.WRAP_CONTENT
+        height = RelativeLayout.LayoutParams.WRAP_CONTENT
+        isFocusable = true
+        isOutsideTouchable = true
+        val dw = ColorDrawable(-0x50000000)
+        setBackgroundDrawable(dw)
+        contentView = LayoutInflater.from(context)
+            .inflate(layoutId, null)
+        block.invoke(PopupLayoutContainer(contentView),this)
+    }.showAsDropDown(this)
+}
