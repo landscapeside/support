@@ -4,14 +4,12 @@
   android:layout_height="match_parent"
   android:orientation="vertical">
 
-  <Button
+  <TextView
     android:id="@+id/open_second"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:layout_marginTop="20dp"
     android:text="打开第二个"
-    android:textColor="@color/white"
-    android:background="@color/design_default_color_primary"/>
+    android:textColor="@color/white"/>
 
 </LinearLayout>
