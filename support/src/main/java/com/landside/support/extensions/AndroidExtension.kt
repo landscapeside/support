@@ -1,10 +1,12 @@
 package com.landside.support.extensions
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.os.Vibrator
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -16,6 +18,7 @@ import android.widget.*
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.landside.support.layoutcontainer.PopupLayoutContainer
@@ -323,4 +326,9 @@ fun View.popAsDown(@LayoutRes layoutId:Int,block:PopupLayoutContainer.(PopupWind
             .inflate(layoutId, null)
         block.invoke(PopupLayoutContainer(contentView),this)
     }.showAsDropDown(this)
+}
+
+@SuppressLint("MissingPermission")
+fun AppCompatActivity.beep(){
+    (getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).vibrate(500)
 }
