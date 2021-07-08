@@ -101,3 +101,6 @@ fun Bitmap.toScaled(
   }
   return newBM
 }
+
+fun File.toBitmap():Bitmap =
+  BitmapFactory.decodeFile(absolutePath)
