@@ -6,7 +6,7 @@ class CoroutineObserver {
     this.doneInvoker = doneInvoker
   }
 
-  var errInvoker: (Throwable) -> Unit = {}
+  var errInvoker: (Throwable) -> Unit = {throw it}
   fun error(errInvoker: (Throwable) -> Unit) {
     this.errInvoker = errInvoker
   }
