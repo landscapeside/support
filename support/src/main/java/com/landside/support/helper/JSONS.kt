@@ -46,4 +46,10 @@ object JSONS {
             null
         } else sParser.parse(content).getAsJsonArray()
     }
+
+    fun parseJsonElement(content: String?): JsonElement? {
+        return if (TextUtils.isEmpty(content)) {
+            null
+        } else sParser.parse(content)
+    }
 }
