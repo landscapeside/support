@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.landside.support.layoutcontainer.PopupLayoutContainer
 import com.landside.support.mvp.MVPBaseActivity
+import com.landside.support.mvp.MVPBaseFragment
 import com.landside.support.views.DialogBuilder
 import com.landside.support.views.EditChangeWatcher
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -243,6 +244,16 @@ fun MVPBaseActivity<*, *>.requestPermissions(
         .subscribe { granted -> onResult(granted) }
 }
 
+fun MVPBaseFragment<*, *>.requestPermissions(
+    vararg permissions: String,
+    onResult: (Boolean) -> Unit
+) {
+    RxPermissions(this)
+        .request(*permissions)
+        .autoDisposable(autoDisposeProvider)
+        .subscribe { granted -> onResult(granted) }
+}
+
 fun ImageView.load(
     url: String,
     @DrawableRes errImg: Int = -1,
@@ -314,7 +325,7 @@ fun ImageView.loadCircle(
     url.loadCircle(context, this, defaultImg)
 }
 
-fun View.popAsDown(@LayoutRes layoutId:Int,block:PopupLayoutContainer.(PopupWindow)->Unit){
+fun View.popAsDown(@LayoutRes layoutId: Int, block: PopupLayoutContainer.(PopupWindow) -> Unit) {
     PopupWindow().apply {
         width = RelativeLayout.LayoutParams.WRAP_CONTENT
         height = RelativeLayout.LayoutParams.WRAP_CONTENT
@@ -324,11 +335,11 @@ fun View.popAsDown(@LayoutRes layoutId:Int,block:PopupLayoutContainer.(PopupWind
         setBackgroundDrawable(dw)
         contentView = LayoutInflater.from(context)
             .inflate(layoutId, null)
-        block.invoke(PopupLayoutContainer(contentView),this)
+        block.invoke(PopupLayoutContainer(contentView), this)
     }.showAsDropDown(this)
 }
 
 @SuppressLint("MissingPermission")
-fun AppCompatActivity.beep(){
+fun AppCompatActivity.beep() {
     (getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).vibrate(500)
 }
