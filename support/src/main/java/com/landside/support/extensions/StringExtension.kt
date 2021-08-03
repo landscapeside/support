@@ -64,3 +64,18 @@ fun String.ellipsis(
 } else {
   this
 }
+
+val String.birthDayByIdCard: String
+  get() = run {
+    when (length) {
+      15 -> {
+        "19${substring(6, 12)}"
+      }
+      18 -> {
+        substring(6, 14)
+      }
+      else -> {
+        ""
+      }
+    }
+  }

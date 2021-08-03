@@ -2,7 +2,8 @@ package com.landside.support.extensions
 
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 
 const val YYYYMMDD = "yyyy-MM-dd"
 const val YYYYMMDD_CN = "yyyy年MM月dd日"
