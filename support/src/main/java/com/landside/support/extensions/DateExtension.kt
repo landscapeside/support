@@ -2,8 +2,7 @@ package com.landside.support.extensions
 
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
+import java.util.*
 
 const val YYYYMMDD = "yyyy-MM-dd"
 const val YYYYMMDD_CN = "yyyy年MM月dd日"
@@ -35,6 +34,19 @@ fun String.transDate(
   val calendar = Calendar.getInstance()
   calendar.time = StringToDate(this, originFormat)
   return longToStr(calendar.timeInMillis, toFormat)
+}
+
+fun String.earlyThan(date:String,format: String = YYYYMMDD):Boolean{
+  if (this.isEmpty()) return true
+  if (date.isEmpty()) return false
+  if (this.length != format.length || date.length != format.length) {
+    throw IllegalArgumentException("date do not match format")
+  }
+  val current = Calendar.getInstance()
+  current.time = StringToDate(this,format)
+  val dest = Calendar.getInstance()
+  dest.time = StringToDate(date,format)
+  return dest > current
 }
 
 fun StringToDate(
