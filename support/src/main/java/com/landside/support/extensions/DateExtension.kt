@@ -7,7 +7,7 @@ import java.util.*
 const val YYYYMMDD = "yyyy-MM-dd"
 const val YYYYMMDD_CN = "yyyy年MM月dd日"
 const val YYYYMMDDHHMM = "yyyy-MM-dd HH:mm"
-const val YYYYMMDDHHMMSS = "yy-MM-dd HH:mm:ss"
+const val YYYYMMDDHHMMSS = "yyyy-MM-dd HH:mm:ss"
 const val HHMMSS = " HH:mm:ss"
 
 const val YYYY = "yyyy"
@@ -17,11 +17,29 @@ const val HH = "HH"
 const val mm = "mm"
 const val ss = "ss"
 
-fun String.addYear(year:Int):String{
+fun String.addYear(year:Int,format: String = YYYYMMDD):String{
   val calendar = Calendar.getInstance()
-  calendar.time = StringToDate(this, YYYYMMDD)
+  calendar.time = StringToDate(this, format)
   calendar.add(Calendar.YEAR, year)
-  return longToStr(calendar.timeInMillis, YYYYMMDD)
+  return longToStr(calendar.timeInMillis, format)
+}
+
+fun String.getMonth(format: String = YYYYMMDD):Int{
+  val calendar = Calendar.getInstance()
+  calendar.time = StringToDate(this, format)
+  return calendar.get(Calendar.MONTH)
+}
+
+fun String.getYear(format: String = YYYYMMDD):Int{
+  val calendar = Calendar.getInstance()
+  calendar.time = StringToDate(this, format)
+  return calendar.get(Calendar.YEAR)
+}
+
+fun String.getDay(format: String = YYYYMMDD):Int{
+  val calendar = Calendar.getInstance()
+  calendar.time = StringToDate(this, format)
+  return calendar.get(Calendar.DAY_OF_MONTH)
 }
 
 fun String.transDate(

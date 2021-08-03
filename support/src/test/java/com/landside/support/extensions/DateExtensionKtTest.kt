@@ -9,4 +9,9 @@ class DateExtensionKtTest : TestCase() {
         val other = "2007-07-08"
         assert(origin.earlyThan(other))
     }
+
+    fun testGetMonth(){
+        val date = "2007-08-09"
+        assertEquals(date.getDay(),9)
+    }
 }
