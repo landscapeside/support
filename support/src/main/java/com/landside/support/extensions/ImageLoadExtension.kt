@@ -15,8 +15,9 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
+import com.landside.support.glide.CropCircleTarget
 import com.landside.support.glide.RotateTransformation
-import com.landside.support.glide.ScaleTransformation
+import com.landside.support.glide.ScaleTarget
 import java.io.File
 
 fun String.loadImage(
@@ -181,9 +182,9 @@ fun String.loadScaleImage(
   if (defaultImg != -1) {
     glideLoader.error(defaultImg)
         .placeholder(defaultImg)
-        .into(ScaleTransformation(imgView))
+        .into(ScaleTarget(imgView))
   } else {
-    glideLoader.into(ScaleTransformation(imgView))
+    glideLoader.into(ScaleTarget(imgView))
   }
 }
 
@@ -210,15 +211,14 @@ fun String.loadCircle(
   imgView: ImageView,
   @DrawableRes defaultImg: Int = -1
 ) {
-  val glideLoader = Glide.with(context)
+  var glideLoader = Glide.with(context)
       .asBitmap()
       .load(this)
-      .circleCrop()
   if (defaultImg != -1) {
-    glideLoader.error(defaultImg)
+    glideLoader = glideLoader.error(defaultImg)
         .placeholder(defaultImg)
-        .into(imgView)
-  } else {
-    glideLoader.into(imgView)
   }
+  glideLoader
+      .circleCrop()
+      .into(CropCircleTarget(imgView))
 }

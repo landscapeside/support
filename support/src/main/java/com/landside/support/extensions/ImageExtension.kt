@@ -1,8 +1,23 @@
 package com.landside.support.extensions
 
 import android.content.Context
-import android.graphics.*
+import android.content.res.Resources
+import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat.JPEG
+import android.graphics.Bitmap.Config.ARGB_8888
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.Rect
+import android.graphics.RectF
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.NinePatchDrawable
 import com.landside.support.compat.DirectoryProvider
 import com.landside.support.helper.SysInfo
 import java.io.File
@@ -61,20 +76,55 @@ fun Bitmap.toCropScaledBitmap(
   } catch (e: Exception) {
     return null
   }
-  val sourceWidth = scaleBitmap.width
-  val soureHeight = scaleBitmap.height
+  val sourceWidth = scaleBitmap?.width ?: 0
+  val soureHeight = scaleBitmap?.height ?: 0
   val needHeight =
     if (targetHeight > soureHeight) soureHeight else targetHeight //如果需要的高度比图片原图的高度大，则用原图高度，否则使用期望的高度
   var resultBitmap: Bitmap? = null
   try {
-    resultBitmap = Bitmap.createBitmap(scaleBitmap, 0, 0, sourceWidth, needHeight)
+    resultBitmap = Bitmap.createBitmap(scaleBitmap!!, 0, 0, sourceWidth, needHeight)
     scaleBitmap.recycle()
   } catch (e: Exception) {
   }
   return resultBitmap
 }
 
-fun Bitmap.toScaled(ratio: Float):Bitmap{
+fun Bitmap.toCircle():Bitmap{
+  var left = 0
+  var top = 0
+  var right = width
+  var bottom = height
+  var roundPx = (height / 2).toFloat()
+  if (width > height) {
+    left = (width - height) / 2
+    top = 0
+    right = left + height
+    bottom = height
+  } else if (height > width) {
+    left = 0
+    top = (height - width) / 2
+    right = width
+    bottom = top + width
+    roundPx = (width / 2).toFloat()
+  }
+
+  val output = Bitmap.createBitmap(width, height, ARGB_8888)
+  val canvas = Canvas(output)
+  val color = -0xbdbdbe
+  val paint = Paint()
+  val rect = Rect(left, top, right, bottom)
+  val rectF = RectF(rect)
+
+  paint.isAntiAlias = true
+  canvas.drawARGB(0, 0, 0, 0)
+  paint.color = color
+  canvas.drawRoundRect(rectF, roundPx, roundPx, paint)
+  paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+  canvas.drawBitmap(this, rect, rect, paint)
+  return output
+}
+
+fun Bitmap.toScaled(ratio: Float): Bitmap {
   val matrix = Matrix()
   matrix.preScale(ratio, ratio)
   val newBM = Bitmap.createBitmap(this, 0, 0, width, height, matrix, false)
@@ -88,7 +138,7 @@ fun Bitmap.toScaled(ratio: Float):Bitmap{
 fun Bitmap.toScaled(
   newWidth: Int = -1,
   newHeight: Int = -1
-):Bitmap{
+): Bitmap {
   val scaleWidth = if (newWidth == -1) 1.0f else newWidth.toFloat() / width
   val scaleHeight = if (newHeight == -1) 1.0f else newHeight.toFloat() / height
   val matrix = Matrix()
@@ -100,10 +150,10 @@ fun Bitmap.toScaled(
   return newBM
 }
 
-fun File.toBitmap():Bitmap =
+fun File.toBitmap(): Bitmap =
   BitmapFactory.decodeFile(absolutePath)
 
-fun Bitmap.toGrey():Bitmap{
+fun Bitmap.toGrey(): Bitmap {
   // 创建目标灰度图像
   // 创建目标灰度图像
   var bmpGray: Bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
@@ -119,7 +169,7 @@ fun Bitmap.toGrey():Bitmap{
   return bmpGray
 }
 
-fun Bitmap.toLineGrey():Bitmap{
+fun Bitmap.toLineGrey(): Bitmap {
   //创建线性拉升灰度图像
   //创建线性拉升灰度图像
   var linegray: Bitmap? = null
@@ -157,7 +207,7 @@ fun Bitmap.toLineGrey():Bitmap{
   return linegray!!
 }
 
-fun Bitmap.toBinary():Bitmap{
+fun Bitmap.toBinary(): Bitmap {
   //创建二值化图像
   //创建二值化图像
   var binarymap: Bitmap = copy(Bitmap.Config.ARGB_8888, true)
@@ -189,4 +239,34 @@ fun Bitmap.toBinary():Bitmap{
     }
   }
   return binarymap
+}
+
+fun Bitmap.toDrawable(resources: Resources): Drawable {
+  return BitmapDrawable(resources, this)
+}
+
+fun Drawable.toBitmap(): Bitmap? {
+  when (this) {
+    is BitmapDrawable -> {
+      return bitmap
+    }
+    is NinePatchDrawable -> {
+      val bitmap = Bitmap
+          .createBitmap(
+              getIntrinsicWidth(),
+              getIntrinsicHeight(),
+              ARGB_8888
+          )
+      val canvas = Canvas(bitmap)
+      setBounds(
+          0, 0, getIntrinsicWidth(),
+          getIntrinsicHeight()
+      )
+      draw(canvas)
+      return bitmap
+    }
+    else -> {
+      return null
+    }
+  }
 }
