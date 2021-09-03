@@ -8,7 +8,7 @@ import com.bumptech.glide.request.target.ImageViewTarget
 /**
  * Glide加载图片时，根据图片宽度等比缩放
  */
-class ScaleTransformation(private val target: ImageView) : ImageViewTarget<Bitmap?>(
+class ScaleTarget(private val target: ImageView) : ImageViewTarget<Bitmap?>(
     target
 ) {
   override fun setResource(resource: Bitmap?) {

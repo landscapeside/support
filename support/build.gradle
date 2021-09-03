@@ -6,7 +6,7 @@ plugins {
     id 'com.github.dcendents.android-maven'
 }
 
-group='com.landscapeside.rxrouter'
+group='com.landscapeside.support'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
