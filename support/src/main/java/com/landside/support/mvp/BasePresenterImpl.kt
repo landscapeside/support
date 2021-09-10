@@ -1,5 +1,6 @@
 package com.landside.support.mvp
 
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.landside.shadowstate.ShadowState
@@ -32,9 +33,10 @@ open class BasePresenterImpl<V : BaseView> : RequestProvider(), BasePresenter<V>
             try {
               errInvoker(e)
             } catch (gException: Exception) {
-              GlobalErrHandler.handle(e)
+              GlobalErrHandler.handle(gException)
             }
-          }finally {
+          }
+          if (it.lifecycle.currentState >= Lifecycle.State.RESUMED){
             doneInvoker()
           }
         }
