@@ -226,7 +226,7 @@ fun View.shake(forever: Boolean = false) {
 }
 
 fun View.rotateAnimate(forever: Boolean = true, eastern: Boolean = true) {
-  val rotateAnim = RotateAnimation(0, if (eastern) -359 else 359)
+  val rotateAnim = RotateAnimation(0f, if (eastern) -359f else 359f)
   rotateAnim.duration = 1000
   if (forever) {
     rotateAnim.repeatMode = Animation.RESTART
