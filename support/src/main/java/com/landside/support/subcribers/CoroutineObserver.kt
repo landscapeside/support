@@ -1,6 +1,6 @@
 package com.landside.support.subcribers
 
-class CoroutineObserver {
+open class CoroutineObserver {
   var doneInvoker: () -> Unit = { /*nothing*/ }
   fun done(doneInvoker: () -> Unit) {
     this.doneInvoker = doneInvoker
