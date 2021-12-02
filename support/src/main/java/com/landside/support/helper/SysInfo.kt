@@ -5,6 +5,9 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Rect
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.NetworkInfo
 import android.os.Build
 import android.provider.Settings.Global
 import android.text.TextUtils
@@ -134,4 +137,17 @@ fun getNavigationBarHeight(context: Context): Int {
             .getDimensionPixelSize(resourceId)
     }
     return result
+}
+
+fun Context.isNetworkAvailable(): Boolean {
+    val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+        val mNetworkInfo = cm.activeNetworkInfo
+        return mNetworkInfo != null && mNetworkInfo.isAvailable
+    } else {
+        val network = cm.activeNetwork?:return false
+        val status = cm.getNetworkCapabilities(network)
+            ?: return false
+        return status.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+    }
 }
