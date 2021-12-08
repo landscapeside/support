@@ -352,6 +352,20 @@ fun View.popAsDown(@LayoutRes layoutId: Int, block: PopupLayoutContainer.(PopupW
   }.showAsDropDown(this)
 }
 
+fun View.popMaxWidthAsDown(@LayoutRes layoutId: Int, block: PopupLayoutContainer.(PopupWindow) -> Unit) {
+  PopupWindow().apply {
+    width = RelativeLayout.LayoutParams.MATCH_PARENT
+    height = RelativeLayout.LayoutParams.WRAP_CONTENT
+    isFocusable = true
+    isOutsideTouchable = true
+    val dw = ColorDrawable(-0x50000000)
+    setBackgroundDrawable(dw)
+    contentView = LayoutInflater.from(context)
+      .inflate(layoutId, null)
+    block.invoke(PopupLayoutContainer(contentView), this)
+  }.showAsDropDown(this)
+}
+
 @SuppressLint("MissingPermission")
 fun AppCompatActivity.beep() {
   (getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).vibrate(500)
