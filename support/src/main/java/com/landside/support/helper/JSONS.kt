@@ -8,6 +8,10 @@ object JSONS {
     private var sGson: Gson = GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create()
     private val sParser: JsonParser = JsonParser()
 
+    fun setGson(gson:Gson){
+        sGson = gson
+    }
+
     fun <T> parseObject(json: String?, type: Type?): T? {
         if (TextUtils.isEmpty(json)) {
             return null
