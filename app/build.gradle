@@ -54,4 +54,7 @@ dependencies {
   implementation rootProject.ext.autodispose_ktx
   implementation rootProject.ext.autodispose_android_ktx
   implementation rootProject.ext.autodispose_archs_ktx
+
+  implementation rootProject.ext.coroutinesCore
+  implementation rootProject.ext.coroutinesAndroid
 }
