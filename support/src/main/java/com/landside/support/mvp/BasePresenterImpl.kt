@@ -6,6 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.landside.shadowstate.ShadowState
 import com.landside.support.helper.GlobalErrHandler
 import com.landside.support.subcribers.CoroutineObserver
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 open class BasePresenterImpl<V : BaseView> : RequestProvider(), BasePresenter<V> {
@@ -23,9 +24,10 @@ open class BasePresenterImpl<V : BaseView> : RequestProvider(), BasePresenter<V>
     mView = null
   }
 
-  fun launch(block: suspend CoroutineObserver.()->Unit) {
+  fun launch(block: suspend CoroutineObserver.()->Unit):Job? {
+    var job:Job? = null
     (mView as? LifecycleOwner)?.let {
-      it.lifecycleScope.launch {
+      job = it.lifecycleScope.launch {
         CoroutineObserver().apply {
           try {
             block()
@@ -42,5 +44,6 @@ open class BasePresenterImpl<V : BaseView> : RequestProvider(), BasePresenter<V>
         }
       }
     }
+    return job
   }
 }
