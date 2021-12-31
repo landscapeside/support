@@ -99,11 +99,11 @@ fun longToStr(
   return dataFormat.format(date)
 }
 
-fun Long.toDate(): String = longToStr(this, YYYYMMDD)
+fun Long.toDate(format: String = YYYYMMDD): String = longToStr(this, format)
 
-fun Long.toCnDate():String = longToStr(this, YYYYMMDD_CN)
+fun Long.toCnDate():String = toDate(YYYYMMDD_CN)
 
-fun Long.toFullDate(): String = longToStr(this, YYYYMMDDHHMMSS)
+fun Long.toFullDate(): String = toDate(YYYYMMDDHHMMSS)
 
 fun Long.toDelicateDate(): String {
   val today = Calendar.getInstance()
