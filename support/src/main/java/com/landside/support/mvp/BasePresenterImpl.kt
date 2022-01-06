@@ -6,7 +6,9 @@ import androidx.lifecycle.lifecycleScope
 import com.landside.shadowstate.ShadowState
 import com.landside.support.helper.GlobalErrHandler
 import com.landside.support.subcribers.CoroutineObserver
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 open class BasePresenterImpl<V : BaseView> : RequestProvider(), BasePresenter<V> {
@@ -24,8 +26,8 @@ open class BasePresenterImpl<V : BaseView> : RequestProvider(), BasePresenter<V>
     mView = null
   }
 
-  fun launch(block: suspend CoroutineObserver.()->Unit):Job? {
-    var job:Job? = null
+  fun launch(block: suspend CoroutineObserver.() -> Unit): Job? {
+    var job: Job? = null
     (mView as? LifecycleOwner)?.let {
       job = it.lifecycleScope.launch {
         CoroutineObserver().apply {
@@ -38,12 +40,22 @@ open class BasePresenterImpl<V : BaseView> : RequestProvider(), BasePresenter<V>
               GlobalErrHandler.handle(gException)
             }
           }
-          if (it.lifecycle.currentState >= Lifecycle.State.RESUMED){
+          if (it.lifecycle.currentState >= Lifecycle.State.RESUMED) {
             doneInvoker()
           }
         }
       }
     }
     return job
+  }
+
+  fun <T> async(block: suspend () -> T): Deferred<T>? {
+    var deferred: Deferred<T>? = null
+    (mView as? LifecycleOwner)?.let {
+      deferred = it.lifecycleScope.async {
+        return@async block()
+      }
+    }
+    return deferred
   }
 }
