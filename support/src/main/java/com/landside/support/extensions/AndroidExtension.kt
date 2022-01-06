@@ -1,6 +1,7 @@
 package com.landside.support.extensions
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -239,12 +240,13 @@ fun View.rotateAnimate(forever: Boolean = true, eastern: Boolean = true) {
 
 fun dialog(
   context: Context,
+  onCreate:AlertDialog.()->Unit = {},
   initializer: DialogBuilder.() -> Unit
 ) {
   val builder = DialogBuilder(context).apply {
     initializer()
   }
-  builder.show()
+  builder.create().apply { onCreate() }.show()
 }
 
 fun MVPBaseActivity<*, *>.requestPermissions(
