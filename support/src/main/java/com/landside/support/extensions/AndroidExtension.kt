@@ -16,7 +16,14 @@ import android.view.animation.Animation
 import android.view.animation.CycleInterpolator
 import android.view.animation.RotateAnimation
 import android.view.animation.TranslateAnimation
-import android.widget.*
+import android.widget.CheckBox
+import android.widget.CompoundButton
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.PopupWindow
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
@@ -115,6 +122,11 @@ fun EditText.safeUpdateState(
 
 fun EditText.addTextChange(watcher: EditChangeWatcher.() -> Unit) {
   addTextChangedListener(EditChangeWatcher().apply { watcher() })
+}
+
+fun EditText.setTextAndReSelection(content:CharSequence){
+  setText(content)
+  setSelection(content.length)
 }
 
 operator fun Intent.get(key: String): String = getStringExtra(key) ?: ""
@@ -227,7 +239,14 @@ fun View.shake(forever: Boolean = false) {
 }
 
 fun View.rotateAnimate(forever: Boolean = true, eastern: Boolean = true) {
-  val rotateAnim = RotateAnimation(0f, if (eastern) -359f else 359f)
+  val rotateAnim = RotateAnimation(
+    0f,
+    if (eastern) -359f else 359f,
+    Animation.RELATIVE_TO_SELF,
+    0.5f,
+    Animation.RELATIVE_TO_SELF,
+    0.5f
+  )
   rotateAnim.duration = 1000
   if (forever) {
     rotateAnim.repeatMode = Animation.RESTART
@@ -242,11 +261,13 @@ fun dialog(
   context: Context,
   onCreate:AlertDialog.()->Unit = {},
   initializer: DialogBuilder.() -> Unit
-) {
+):AlertDialog {
   val builder = DialogBuilder(context).apply {
     initializer()
   }
-  builder.create().apply { onCreate() }.show()
+  val dialog = builder.create()
+  dialog.apply { onCreate() }.show()
+  return dialog
 }
 
 fun MVPBaseActivity<*, *>.requestPermissions(
