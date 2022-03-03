@@ -65,6 +65,24 @@ fun FragmentActivity.replaceFragment(
   transaction.commit()
 }
 
+fun FragmentActivity.showFragment(
+  fragment: Fragment
+) {
+  val fm = supportFragmentManager
+  val transaction = fm.beginTransaction()
+  transaction.show(fragment)
+  transaction.commit()
+}
+
+fun FragmentActivity.hideFragment(
+  fragment: Fragment
+) {
+  val fm = supportFragmentManager
+  val transaction = fm.beginTransaction()
+  transaction.hide(fragment)
+  transaction.commit()
+}
+
 fun Fragment.mountFragment(
   @IdRes resId: Int,
   fragment: Fragment
@@ -82,6 +100,24 @@ fun Fragment.replaceFragment(
   val fm = childFragmentManager
   val transaction = fm.beginTransaction()
   transaction.replace(resId, fragment)
+  transaction.commit()
+}
+
+fun Fragment.showFragment(
+  fragment: Fragment
+) {
+  val fm = childFragmentManager
+  val transaction = fm.beginTransaction()
+  transaction.show(fragment)
+  transaction.commit()
+}
+
+fun Fragment.hideFragment(
+  fragment: Fragment
+) {
+  val fm = childFragmentManager
+  val transaction = fm.beginTransaction()
+  transaction.hide(fragment)
   transaction.commit()
 }
 
