@@ -40,7 +40,7 @@ open class BasePresenterImpl<V : BaseView> : RequestProvider(), BasePresenter<V>
               GlobalErrHandler.handle(gException)
             }
           }
-          if (it.lifecycle.currentState >= Lifecycle.State.RESUMED) {
+          if (it.lifecycle.currentState >= Lifecycle.State.STARTED) {
             doneInvoker()
           }
         }
