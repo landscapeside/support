@@ -5,5 +5,5 @@ import java.math.RoundingMode
 
 fun Double.toScale(scale:Int = 1):String{
   val bigDecimal = BigDecimal(this)
-  return bigDecimal.setScale(scale, RoundingMode.DOWN).toDouble().toString()
+  return bigDecimal.setScale(scale, RoundingMode.DOWN).toString()
 }

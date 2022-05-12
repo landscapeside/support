@@ -121,3 +121,40 @@ fun Long.toDelicateDate(): String {
 }
 
 fun Date.toSelectedDate():String = longToStr(time, YYYYMMDDHHMM)
+
+/**
+ * 根据一个日期，返回是星期几的字符串
+ *
+ * @param date
+ * @return
+ */
+fun Date.toWeekDesc(): String {
+  // 再转换为时间
+  val c = Calendar.getInstance()
+  c.time = this
+  // int hour=c.get(Calendar.DAY_OF_WEEK);
+  // hour中存的就是星期几了，其范围 1~7
+  // 1=星期日 7=星期六，其他类推
+  return SimpleDateFormat("EEEE").format(c.time)
+}
+
+fun Date.toWeekDescCn(): String {
+  var str = ""
+  str = toWeekDesc()
+  if ("1" == str) {
+    str = "星期日"
+  } else if ("2" == str) {
+    str = "星期一"
+  } else if ("3" == str) {
+    str = "星期二"
+  } else if ("4" == str) {
+    str = "星期三"
+  } else if ("5" == str) {
+    str = "星期四"
+  } else if ("6" == str) {
+    str = "星期五"
+  } else if ("7" == str) {
+    str = "星期六"
+  }
+  return str
+}
