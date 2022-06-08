@@ -71,13 +71,13 @@ fun String.earlyThan(date:String,format: String = YYYYMMDD):Boolean{
 fun StringToDate(
   dateStr: String,
   format: String
-): Date? {
+): Date {
   val localSimpleDateFormat = SimpleDateFormat(
       format
   )
-  var localDate: Date? = null
+  var localDate = Date()
   try {
-    localDate = localSimpleDateFormat.parse(dateStr)
+    localDate = localSimpleDateFormat.parse(dateStr)?:Date()
   } catch (localParseException: ParseException) {
     localParseException.printStackTrace()
   }
