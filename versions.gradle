@@ -112,13 +112,13 @@ ext {
     rxWebSocket = 'com.dhh:websocket2:2.1.4'
     rxBus = 'com.hwangjr.rxbus:rxbus:2.0.1'
 
-    sliceRouter = "com.github.landscapeside.sliceRouter:slicerouter:0.0.18"
-    sliceRouterCompiler = 'com.github.landscapeside.sliceRouter:slicerouter-compiler:0.0.18'
+    sliceRouter = "com.github.landscapeside.sliceRouter:slicerouter:0.0.32"
+    sliceRouterCompiler = 'com.github.landscapeside.sliceRouter:slicerouter-compiler:0.0.32'
 
-    shadowState = 'com.github.landscapeside.ShadowState:shadowstate:1.0.2'
-    shadowStateCompiler = 'com.github.landscapeside.ShadowState:shadowstate-compiler:1.0.2'
+    shadowState = 'com.github.landscapeside.ShadowState:shadowstate:1.0.8'
+    shadowStateCompiler = 'com.github.landscapeside.ShadowState:shadowstate-compiler:1.0.8'
 
-    rehost = 'com.github.landscapeside:rehost:0.0.7'
+    rehost = 'com.github.landscapeside:rehost:0.0.8'
 
     enhancedFloaty = 'com.github.hyb1996:EnhancedFloaty:0.31'
 
