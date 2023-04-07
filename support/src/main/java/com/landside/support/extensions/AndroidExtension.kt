@@ -30,7 +30,6 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.landside.support.layoutcontainer.PopupLayoutContainer
 import com.landside.support.mvp.MVPBaseActivity
 import com.landside.support.mvp.MVPBaseFragment
 import com.landside.support.views.DialogBuilder
@@ -397,7 +396,7 @@ fun ImageView.loadCircle(
   url.loadCircle(context, this, defaultImg)
 }
 
-fun View.popAsDown(@LayoutRes layoutId: Int, block: PopupLayoutContainer.(PopupWindow) -> Unit) {
+fun View.popAsDown(@LayoutRes layoutId: Int, block: (PopupWindow) -> Unit) {
   PopupWindow().apply {
     width = RelativeLayout.LayoutParams.WRAP_CONTENT
     height = RelativeLayout.LayoutParams.WRAP_CONTENT
@@ -407,11 +406,11 @@ fun View.popAsDown(@LayoutRes layoutId: Int, block: PopupLayoutContainer.(PopupW
     setBackgroundDrawable(dw)
     contentView = LayoutInflater.from(context)
       .inflate(layoutId, null)
-    block.invoke(PopupLayoutContainer(contentView), this)
+    block.invoke(this)
   }.showAsDropDown(this)
 }
 
-fun View.popMaxWidthAsDown(@LayoutRes layoutId: Int, block: PopupLayoutContainer.(PopupWindow) -> Unit) {
+fun View.popMaxWidthAsDown(@LayoutRes layoutId: Int, block: (PopupWindow) -> Unit) {
   PopupWindow().apply {
     width = RelativeLayout.LayoutParams.MATCH_PARENT
     height = RelativeLayout.LayoutParams.WRAP_CONTENT
@@ -421,7 +420,7 @@ fun View.popMaxWidthAsDown(@LayoutRes layoutId: Int, block: PopupLayoutContainer
     setBackgroundDrawable(dw)
     contentView = LayoutInflater.from(context)
       .inflate(layoutId, null)
-    block.invoke(PopupLayoutContainer(contentView), this)
+    block.invoke(this)
   }.showAsDropDown(this)
 }
 
